@@ -2,40 +2,40 @@
 
 char* username = "C##DEV";
 char* password = "sys1234";
-char* dbname = "192.168.31.77:1521/xe";
+char* dbname = "localhost:1521/xe";
 
 void set_env() {
-	// È¯°æ ÇÚµé »ý¼º
+	// È¯ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (OCIEnvCreate(&envhp, OCI_DEFAULT, NULL, NULL, NULL, NULL, 0, NULL) !=
 		OCI_SUCCESS) {
 		printf("OCIEnvCreate failed\n");
 		return -1;
 	}
-	// ¿À·ù ÇÚµé »ý¼º
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (OCIHandleAlloc((dvoid*)envhp, (dvoid**)&errhp, OCI_HTYPE_ERROR, (size_t)0,
 		(dvoid**)NULL) != OCI_SUCCESS) {
 		printf("OCIHandleAlloc failed for error handle\n");
 		return -1;
 	}
-	// ¼­¹ö ÇÚµé »ý¼º
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (OCIHandleAlloc((dvoid*)envhp, (dvoid**)&srvhp, OCI_HTYPE_SERVER, (size_t)0,
 		(dvoid**)NULL) != OCI_SUCCESS) {
 		printf("OCIHandleAlloc failed for server handle\n");
 		return -1;
 	}
-	// ¼­¹ö ¿¬°á
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (OCIServerAttach(srvhp, errhp, (text*)dbname, strlen(dbname), OCI_DEFAULT) !=
 		OCI_SUCCESS) {
 		check_error(errhp);
 		return -1;
 	}
-	// ¼­ºñ½º ÄÁÅØ½ºÆ® »ý¼º
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	if (OCIHandleAlloc((dvoid*)envhp, (dvoid**)&svchp, OCI_HTYPE_SVCCTX, (size_t)0,
 		(dvoid**)NULL) != OCI_SUCCESS) {
 		check_error(errhp);
 		return -1;
 	}
-	// ¼¼¼Ç ÇÚµé »ý¼º ¹× ¿¬°á
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (OCIHandleAlloc((dvoid*)envhp, (dvoid**)&usrhp, OCI_HTYPE_SESSION, (size_t)0,
 		(dvoid**)NULL) != OCI_SUCCESS) {
 		check_error(errhp);
@@ -45,7 +45,7 @@ void set_env() {
 		(OraText*)username, (ub4)strlen(username),
 		(OraText*)password, (ub4)strlen(password),
 		(OraText*)dbname, (ub4)strlen(dbname),
-		OCI_DEFAULT /* ¸¶Áö¸· ÀÎ¼ö Ãß°¡ */
+		OCI_DEFAULT /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¼ï¿½ ï¿½ß°ï¿½ */
 	) != OCI_SUCCESS) {
 		check_error(errhp);
 		return -1;

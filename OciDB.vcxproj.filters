@@ -21,6 +21,18 @@
     <ClCompile Include="env.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="stockprice.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="holdings.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="login.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="initpage.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Env.h">
