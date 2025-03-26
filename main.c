@@ -1,49 +1,35 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include "transactions.h"
+#include "Env.h"
 
-void menu() {
-    int choice;
-    initOCI();
-    loadFromFile();
-    loadFromStocksFile();
-
-    while (1) {
-        printf("\n==== 주식 거래 관리 시스템 ====\n");
-        printf("1. 거래 추가\n2. 거래 조회\n3. 고객 거래 검색\n4. 거래 수정\n5. 거래 삭제\n6. 종료\n");
-        printf("선택: ");
-        scanf("%d", &choice);
-
-        switch (choice) {
-        case 1: 
-            addTransaction(); 
-            saveToFile();
-            saveToStocksFile(); 
-            break;
-        case 2: viewAllTransactions(); break;
-        case 3: searchTransactionsByCustomer(); break;
-        case 4: 
-            updateTransaction(); 
-            saveToFile();
-            saveToStocksFile(); 
-            break;
-        case 5: 
-            deleteTransaction(); 
-            saveToFile();
-            saveToStocksFile(); break;
-        case 6:
-            closeOCI();
-            saveToFile();
-            saveToStocksFile();
-            freeMemory();
-            printf("프로그램 종료.\n");
-            return;
-        default: printf("잘못된 입력입니다.\n");
-        }
-    }
-}
 
 int main() {
-    menu();
-    return 0;
+	set_env(); //초기 1 회
+
+	//////////////////////////////////////////////////////////////////////
+	char* select_sql = "SELECT * FROM users";
+	OCIHandleAlloc(envhp, (void**)&stmthp, OCI_HTYPE_STMT, 0, NULL);
+	OCIStmtPrepare(stmthp, errhp, (text*)select_sql, strlen(select_sql), OCI_NTV_SYNTAX, OCI_DEFAULT);
+
+
+	OCIStmtExecute(svchp, stmthp, errhp, 0, 0, NULL, NULL, OCI_DEFAULT);
+
+
+	OCIDefine* def1 = NULL;
+	char id[20];
+
+	OCIDefineByPos(stmthp, &def1, errhp, 1, id, sizeof(id), SQLT_STR, NULL, NULL, NULL, OCI_DEFAULT);
+
+	printf("테이블 조회 결과:\n");
+
+
+	while ((status = OCIStmtFetch2(stmthp, errhp, 1, OCI_DEFAULT, 0, OCI_DEFAULT)) == OCI_SUCCESS || status == OCI_SUCCESS_WITH_INFO) {
+
+		printf("|%-10s|\n", id);
+	}
+	printf("-------------------------------------------------------\n");
+	//////////////////////////////////////////////////////////////////////
+	
+	quit_env; //사용후 종료
+
+	return 0;
 }

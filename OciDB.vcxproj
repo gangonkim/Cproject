@@ -130,12 +130,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="env.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="OciDB.c" />
-    <ClCompile Include="transactions.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="transactions.h" />
+    <ClInclude Include="Env.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
