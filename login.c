@@ -51,7 +51,7 @@ void login() {
 
     password[i] = '\0';  // 문자열 종료
 
-    char* select_sql = "SELECT userid, name FROM USERS WHERE userid = :1 AND password = :2";
+    char* select_sql = "SELECT userid, name, type FROM USERS WHERE userid = :1 AND password = :2";
     OCIHandleAlloc(envhp, (void**)&stmthp, OCI_HTYPE_STMT, 0, NULL);
     OCIStmtPrepare(stmthp, errhp, (text*)select_sql, strlen(select_sql), OCI_NTV_SYNTAX, OCI_DEFAULT);
     //OCIStmtExecute(svchp, stmthp, errhp, 0, 0, NULL, NULL, OCI_DEFAULT);
@@ -71,17 +71,19 @@ void login() {
     }
 
     else {
-        char name[50], userId[50];
-        OCIDefine* def1 = NULL, * def2 = NULL;
+        char name[50], userId[50], type[20];
+        OCIDefine* def1 = NULL, * def2 = NULL, * def3 = NULL;
 
-        OCIDefineByPos(stmthp, &def1, errhp, 1, userId, sizeof(userId), SQLT_STR, NULL, NULL, NULL, OCI_DEFAULT); 
+        OCIDefineByPos(stmthp, &def1, errhp, 1, userId, sizeof(userId), SQLT_STR, NULL, NULL, NULL, OCI_DEFAULT);
         OCIDefineByPos(stmthp, &def1, errhp, 2, name, sizeof(name), SQLT_STR, NULL, NULL, NULL, OCI_DEFAULT);
+        OCIDefineByPos(stmthp, &def1, errhp, 3, type, sizeof(type), SQLT_STR, NULL, NULL, NULL, OCI_DEFAULT);
 
     
         if ((status = OCIStmtFetch2(stmthp, errhp, 1, OCI_DEFAULT, 0, OCI_DEFAULT)) == OCI_SUCCESS || status == OCI_SUCCESS_WITH_INFO) {
 
             strcpy(authUser, name);
             strcpy(authId, userId);
+            strcpy(authUserType, type);
 
             printf("\n\n%s 님, 환영합니다!\n", name);
             printf("아무 키나 누르면 계속 진행합니다.");
