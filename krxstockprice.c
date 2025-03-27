@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include "Env.h"
 
 // ANSI 색상 코드
@@ -6,7 +6,7 @@
 #define RED_COLOR "\033[31m"  // 빨간색
 #define BLUE_COLOR "\033[34m" // 파란색
 
-void showtotalstockprice(const char* stock_code_input) {
+void showkrxstockprice(const char* stock_code_input) {
     set_env(); // 환경 설정
 
     printf("Stock Code Input: %s\n", stock_code_input);
@@ -96,24 +96,24 @@ void showtotalstockprice(const char* stock_code_input) {
 
     // 출력
     system("cls");  // 화면 초기화
-    printf("-----------------------\n");
+    printf("----------------------\n");
 
     while ((status = OCIStmtFetch2(stmthp, errhp, 1, OCI_DEFAULT, 0, OCI_DEFAULT)) == OCI_SUCCESS || status == OCI_SUCCESS_WITH_INFO) {
         printf("| 종목코드 | %-8s \n|  종목명  | 삼성전자 \n", stock_code);
-        printf("-----------------------\n");
-        printf("|  호 가   | 통합잔량 |\n");
+        printf("----------------------\n");
+        printf("|  호 가   | KRX잔량 |\n");
 
         // 매도호가 1~10 및 수량 출력 (파란색)
         for (int i = 0; i < 10; i++) {
-            printf("| %s %.0f%s   |   %-5d  |\n", BLUE_COLOR, (float)sell_price[i], RESET_COLOR, sell_quantity[i] + ats_sell_quantity[i]);
+            printf("| %s %.0f%s   |  %-5d  |\n", BLUE_COLOR, (float)sell_price[i], RESET_COLOR, sell_quantity[i], ats_sell_quantity[i]);
         }
 
         // 매수호가 1~10 및 수량 출력 (빨간색)
         for (int i = 0; i < 10; i++) {
-            printf("| %s %.0f%s   |   %-5d  |\n", RED_COLOR, (float)buy_price[i], RESET_COLOR, buy_quantity[i] + ats_buy_quantity[i]);
+            printf("| %s %.0f%s   |  %-5d  |\n", RED_COLOR, (float)buy_price[i], RESET_COLOR, buy_quantity[i], ats_buy_quantity[i]);
         }
 
-        printf("-----------------------\n");
+        printf("----------------------\n");
     }
 
     // 환경 종료

@@ -42,7 +42,16 @@
     <ClCompile Include="offer.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="trade.c">
+    <ClCompile Include="sor.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="exchange_choice.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="krxstockprice.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="nxtstockprice.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="holding.c">

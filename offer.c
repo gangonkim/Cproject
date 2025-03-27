@@ -4,7 +4,9 @@
 
 
 
+
 int insert_offer(OFFER* offer) {
+
 	set_env();
 	int offerId;
 	char* insert_sql = "INSERT INTO offers (accountNumber, stockTicker, status, quantity, price) VALUES (:1, :2, :3, :4, :5) RETURNING offerNumber INTO :offerId";

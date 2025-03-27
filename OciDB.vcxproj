@@ -132,13 +132,17 @@
   <ItemGroup>
     <ClCompile Include="env.c" />
     <ClCompile Include="holding.c" />
+    <ClCompile Include="exchange_choice.c" />
     <ClCompile Include="holdings.c" />
     <ClCompile Include="initpage.c" />
+    <ClCompile Include="krxstockprice.c" />
     <ClCompile Include="login.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="nxtstockprice.c" />
     <ClCompile Include="offer.c" />
     <ClCompile Include="offerService.c" />
     <ClCompile Include="OfferService.h" />
+    <ClCompile Include="sor.c" />
     <ClCompile Include="stockprice.c" />
     <ClCompile Include="trade.c" />
   </ItemGroup>

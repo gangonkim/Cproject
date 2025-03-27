@@ -1,5 +1,6 @@
 ﻿#include "Env.h"
 #define OCI_UTF8ID 871 // Add this line to define OCI_UTF8ID
+
 char* username = "C##TEST1";
 char* password = "0000";
 char* dbname = "localhost:1521/xe";
