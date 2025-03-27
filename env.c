@@ -1,14 +1,18 @@
 #include "Env.h"
-
+#define OCI_UTF8ID 871 // Add this line to define OCI_UTF8ID
 char* username = "C##DEV";
 char* password = "sys1234";
 char* dbname = "localhost:1521/xe";
 
 void set_env() {
 	// ȯ�� �ڵ� ����
-	if (OCIEnvCreate(&envhp, OCI_DEFAULT, NULL, NULL, NULL, NULL, 0, NULL) !=
-		OCI_SUCCESS) {
-		printf("OCIEnvCreate failed\n");
+	//if (OCIEnvCreate(&envhp, OCI_DEFAULT, NULL, NULL, NULL, NULL, 0, NULL) !=
+	//	OCI_SUCCESS) {
+	//	printf("OCIEnvCreate failed\n");
+	//	return -1;
+	//}
+	if (OCIEnvNlsCreate(&envhp, OCI_DEFAULT, NULL, NULL, NULL, NULL, 0, NULL, OCI_UTF8ID, OCI_UTF8ID) != OCI_SUCCESS) {
+		printf("OCIEnvNlsCreate failed\n");
 		return -1;
 	}
 	// ���� �ڵ� ����
