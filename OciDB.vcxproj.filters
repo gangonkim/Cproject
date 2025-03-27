@@ -33,12 +33,21 @@
     <ClCompile Include="initpage.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="sor.c">
+    <ClCompile Include="OfferService.h">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="offerService.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="offer.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Env.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="offer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Env.h"
+#include "OfferService.h"
 #include <conio.h>  // conio.h를 사용하여 키 입력 및 커서 조작을 위한 라이브러리
 
 // ANSI 색상 코드
@@ -62,9 +63,11 @@ void execute_trade(int choice) {
     switch (choice) {
     case 1:
         showstockprice();  // 매수 함수 호출
+        add_offer();
         break;
     case 2:
         showstockprice();  // 매도 함수 호출 (show_stock_price()는 매수/매도 모두 포함될 수 있습니다)
+        add_offer();
         break;
     case 3:
         printf("체결/미체결 목록 출력\n");

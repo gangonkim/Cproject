@@ -135,11 +135,14 @@
     <ClCompile Include="initpage.c" />
     <ClCompile Include="login.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="sor.c" />
+    <ClCompile Include="offer.c" />
+    <ClCompile Include="offerService.c" />
+    <ClCompile Include="OfferService.h" />
     <ClCompile Include="stockprice.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Env.h" />
+    <ClInclude Include="offer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
