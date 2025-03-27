@@ -16,4 +16,4 @@ typedef struct {
 } OFFER;
 
 //void convert_to_utf8(const wchar_t* wstr, char* utf8str, int utf8str_size);
-void insert_offer(OFFER*);
+int insert_offer(OFFER*);

@@ -4,7 +4,7 @@
 
 
 
-void insert_offer(OFFER* offer) {
+int insert_offer(OFFER* offer) {
 	set_env();
 	int offerId;
 	char* insert_sql = "INSERT INTO offers (accountNumber, stockTicker, status, quantity, price) VALUES (:1, :2, :3, :4, :5) RETURNING offerNumber INTO :offerId";
@@ -28,6 +28,6 @@ void insert_offer(OFFER* offer) {
 		printf(" 데이터 삽입 완료!\n");
 	}
 	
-	printf("id값 |%4d|\n", offerId);// 이거 return 시키면 됨
 	quit_env;
+	return offerId;
 };
