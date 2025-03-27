@@ -1,37 +1,15 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Env.h"
-#include <stdio.h>
 
-#define KRX_CHARGE 1.5;
-#define ATS_CHARGE 1.45;
+// ANSI 색상 코드
+#define RESET_COLOR "\033[0m"
+#define RED_COLOR "\033[31m"  // 빨간색
+#define BLUE_COLOR "\033[34m" // 파란색
 
-typedef struct {
-    int id;
-    int offernumber;
-    int exchangeactual;
-    char selleraccountnumber[20];
-    char buyeraccountnumber[20];
-    int quantiy;
-    int price;
-    int charge;
-    char createdAt[20];
-} TRADE;
-
-//입력값: 주식코드, 매수/매도구분, 가격, 수량
-int* sor(char stockcode[], char status[], int price, int quantity) {
-
-    
-    int* arr = (int*)malloc(4 * sizeof(int));
-
-    if (arr == NULL) {
-        printf("메모리 할당 실패\n");
-        return NULL;
-    }
-
-    //sor알고리즘 구현
-
-    //
+void showkrxstockprice(const char* stock_code_input) {
     set_env(); // 환경 설정
+
+    printf("Stock Code Input: %s\n", stock_code_input);
 
     char select_sql[1500];
     sprintf(select_sql,
@@ -49,7 +27,7 @@ int* sor(char stockcode[], char status[], int price, int quantity) {
         "ATS_BUY_QUANTITY_1, ATS_BUY_QUANTITY_2, ATS_BUY_QUANTITY_3, ATS_BUY_QUANTITY_4, ATS_BUY_QUANTITY_5, "
         "ATS_BUY_QUANTITY_6, ATS_BUY_QUANTITY_7, ATS_BUY_QUANTITY_8, ATS_BUY_QUANTITY_9, ATS_BUY_QUANTITY_10 "
         "FROM STOCKASKINGPRICE "
-        "WHERE STOCK_CODE = '%s'", stockcode);
+        "WHERE STOCK_CODE = '%s'", stock_code_input);
 
     OCIHandleAlloc(envhp, (void**)&stmthp, OCI_HTYPE_STMT, 0, NULL);
     OCIStmtPrepare(stmthp, errhp, (text*)select_sql, strlen(select_sql), OCI_NTV_SYNTAX, OCI_DEFAULT);
@@ -116,28 +94,28 @@ int* sor(char stockcode[], char status[], int price, int quantity) {
         OCIDefineByPos(stmthp, &def_ats_buy_quantity[i], errhp, 53 + i, &ats_buy_quantity[i], sizeof(ats_buy_quantity[i]), SQLT_INT, NULL, NULL, NULL, OCI_DEFAULT);
     }
 
+    // 출력
+    system("cls");  // 화면 초기화
+    printf("----------------------\n");
+
     while ((status = OCIStmtFetch2(stmthp, errhp, 1, OCI_DEFAULT, 0, OCI_DEFAULT)) == OCI_SUCCESS || status == OCI_SUCCESS_WITH_INFO) {
-        printf("매도1호가: %d | 수량: %d \n 매수1호가: %d | 수량: %d", sell_price[0], sell_quantity[0], buy_price[0], buy_quantity[0]);
-    }
+        printf("| 종목코드 | %-8s \n|  종목명  | 삼성전자 \n", stock_code);
+        printf("----------------------\n");
+        printf("|  호 가   | KRX잔량 |\n");
 
-    
-    for (int i = 0; i < 10; i++) {
-        if (sell_price[i] < price ) {
-            if (ats_sell_quantity[i] > quantity) {
-
-            }
+        // 매도호가 1~10 및 수량 출력 (파란색)
+        for (int i = 0; i < 10; i++) {
+            printf("| %s %.0f%s   |  %-5d  |\n", BLUE_COLOR, (float)sell_price[i], RESET_COLOR, sell_quantity[i], ats_sell_quantity[i]);
         }
+
+        // 매수호가 1~10 및 수량 출력 (빨간색)
+        for (int i = 0; i < 10; i++) {
+            printf("| %s %.0f%s   |  %-5d  |\n", RED_COLOR, (float)buy_price[i], RESET_COLOR, buy_quantity[i], ats_buy_quantity[i]);
+        }
+
+        printf("----------------------\n");
     }
 
     // 환경 종료
     quit_env();
-
-
-    // 리턴 배열
-    arr[0]; // 정규거래소 주문 실행 가격
-    arr[1]; // 정규거래소 주문 실행 수량
-    arr[2]; // ats 주문 실행 가격
-    arr[3]; // ats 주문 실행 수량
-
-    return arr;
 }
