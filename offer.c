@@ -1,4 +1,4 @@
-#include "Offer.h"
+﻿#include "Offer.h"
 #include "Env.h"
 
 void insert_offer(OFFER* offer) {
