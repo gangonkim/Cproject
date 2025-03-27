@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="env.c" />
+    <ClCompile Include="holding.c" />
     <ClCompile Include="exchange_choice.c" />
     <ClCompile Include="holdings.c" />
     <ClCompile Include="initpage.c" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="Env.h" />
     <ClInclude Include="offer.h" />
+    <ClInclude Include="holding.h" />
     <ClInclude Include="trade.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
