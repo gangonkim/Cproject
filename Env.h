@@ -20,6 +20,7 @@ extern char* password;
 extern char* dbname;
 char authUser[50];
 char authId[50];
+char authUserType[20];
 
 #define pause system("pause > nul")  
 #define cls system("cls")   
@@ -30,3 +31,4 @@ void check_error(OCIError* errhp);
 void quit_env();
 void login();
 void printProgressBar(int percent);
+void exportJson(int n);

@@ -143,10 +143,12 @@
     <ClCompile Include="OfferService.h" />
     <ClCompile Include="sor.c" />
     <ClCompile Include="stockprice.c" />
+    <ClCompile Include="trade.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Env.h" />
     <ClInclude Include="offer.h" />
+    <ClInclude Include="trade.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

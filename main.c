@@ -15,7 +15,7 @@ void exchange_showstockprice(int choice);
 void display_menu(int choice) {
     cls;
     printf("==== 주식 거래 프로그램 ====\n");
-	printf("로그인한 사용자: %s\n", authUser);
+	printf("로그인한 %s: %s\n", authUserType == '0' ? "사용자" : "관리자", authUser);
 	printf("============================\n");
 
     // 메뉴 항목에 선택된 항목에 대해 배경색을 변경하여 출력
@@ -129,7 +129,6 @@ void select_exchange() {
         }
     }
 }
-
 void exchange_showstockprice(int choice) {
     switch (choice) {
     case 1:
@@ -178,25 +177,53 @@ void execute_trade(int choice) {
     }
 }
 
-
 void generate_report() {
     printf("보고서 출력\n");
-    // 보고서 출력 로직
+    // 보고서 출력 
+
+    //유저 role에 따라 삼항연산으로 넘기기
+    exportJson(authUserType == '0' ? 0 : 1);
+
+}
+void exportJson(int n) {
+    //0 : 일반사용자
+    //1 : 관리자
+
+    //파일 위치 로컬경로
+    FILE* file = fopen("C:/coolfin/projc/public/user_data.json", "w");
+    if (file == NULL) {
+        printf("파일 로드 실패");
+        return;
+    }
+
+
+    fprintf(file, "{\n");
+    fprintf(file, "    \"userId\": \"%s\",\n", authId);
+    fprintf(file, "    \"name\": \"%s\"\n", authUser);
+    fprintf(file, "}\n");
+
+
+    fclose(file);
+
+    printf("JSON 파일 생성이 완료되었습니다\n");
+    printf("계속하시려면 아무 키나 입력해 주세요...");
+    pause;
+    cls;
 }
 
 int main() {
-    //printf("C 프로젝트 불러오는 중...\n");
-    //for (int i = 0; i <= 100; i++) {
-    //    printProgressBar(i);  // 진행 바 출력
-    //    Sleep(5); // 1초 대기
-    //}
+    printf("C 프로젝트 불러오는 중...\n");
+    for (int i = 0; i <= 100; i++) {
+        printProgressBar(i);  // 진행 바 출력
+        Sleep(5); // 1초 대기
+    }
 
-    //printf("\n로딩 성공!\n");
-    //Sleep(1000);
+    printf("\n로딩 성공!\n");
+    Sleep(1000);
 
-    //cls;
+    cls;
 
-    //login();
+    login();
 
     handle_menu_selection(); 
     //sor("005930", "매수", 10000, 10);
