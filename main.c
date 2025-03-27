@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
 #include "Env.h"
 #include "OfferService.h"
 #include <conio.h>  // conio.h를 사용하여 키 입력 및 커서 조작을 위한 라이브러리
@@ -12,8 +12,10 @@ void generate_report();   // 보고서 출력 함수 프로토타입
 void execute_trade(int choice);  // 매수/매도 선택을 처리하는 함수 프로토타입
 
 void display_menu(int choice) {
-    system("cls");  // 화면 초기화
+    cls;
     printf("==== 주식 거래 프로그램 ====\n");
+	printf("로그인한 사용자: %s\n", authUser);
+	printf("============================\n");
 
     // 메뉴 항목에 선택된 항목에 대해 배경색을 변경하여 출력
     printf("%s1. 매수%s\n", choice == 1 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
@@ -91,7 +93,19 @@ void generate_report() {
 }
 
 int main() {
-    /*login();*/
+    printf("C 프로젝트 불러오는 중...\n");
+    for (int i = 0; i <= 100; i++) {
+        printProgressBar(i);  // 진행 바 출력
+        Sleep(5); // 1초 대기
+    }
+
+    printf("\n로딩 성공!\n");
+    Sleep(1000);
+
+    cls;
+
+    login();
+
     handle_menu_selection();  // 메뉴 선택 실행
     return 0;
 }
