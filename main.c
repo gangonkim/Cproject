@@ -62,7 +62,7 @@ void handle_menu_selection() {
 void execute_trade(int choice) {
     switch (choice) {
     case 1:
-        showstockprice();  // 매수 함수 호출
+        showstockprice("005930");  // 매수 함수 호출
         add_offer();
         break;
     case 2:

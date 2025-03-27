@@ -5,8 +5,6 @@
 #include <stdio.h>
 
 
-
-
 typedef struct {
 	int id;
 	char accountNum[20];

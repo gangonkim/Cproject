@@ -6,11 +6,14 @@
 #define RED_COLOR "\033[31m"  // 빨간색
 #define BLUE_COLOR "\033[34m" // 파란색
 
-void showstockprice() {
+void showstockprice(const char* stock_code_input) {
     set_env(); // 환경 설정
 
-    // 주식 호가 테이블에서 데이터 조회
-    char* select_sql = "SELECT STOCK_CODE, TRADING_TIME, "
+    printf("Stock Code Input: %s\n", stock_code_input);
+
+    char select_sql[1500];
+    sprintf(select_sql,
+        "SELECT STOCK_CODE, TRADING_TIME, "
         "SELL_PRICE_1, SELL_QUANTITY_1, SELL_PRICE_2, SELL_QUANTITY_2, SELL_PRICE_3, SELL_QUANTITY_3, "
         "SELL_PRICE_4, SELL_QUANTITY_4, SELL_PRICE_5, SELL_QUANTITY_5, SELL_PRICE_6, SELL_QUANTITY_6, "
         "SELL_PRICE_7, SELL_QUANTITY_7, SELL_PRICE_8, SELL_QUANTITY_8, SELL_PRICE_9, SELL_QUANTITY_9, "
@@ -23,7 +26,8 @@ void showstockprice() {
         "ATS_SELL_QUANTITY_6, ATS_SELL_QUANTITY_7, ATS_SELL_QUANTITY_8, ATS_SELL_QUANTITY_9, ATS_SELL_QUANTITY_10, "
         "ATS_BUY_QUANTITY_1, ATS_BUY_QUANTITY_2, ATS_BUY_QUANTITY_3, ATS_BUY_QUANTITY_4, ATS_BUY_QUANTITY_5, "
         "ATS_BUY_QUANTITY_6, ATS_BUY_QUANTITY_7, ATS_BUY_QUANTITY_8, ATS_BUY_QUANTITY_9, ATS_BUY_QUANTITY_10 "
-        "FROM C##DEV.STOCKASKINGPRICE";
+        "FROM STOCKASKINGPRICE "
+        "WHERE STOCK_CODE = '%s'", stock_code_input);
 
     OCIHandleAlloc(envhp, (void**)&stmthp, OCI_HTYPE_STMT, 0, NULL);
     OCIStmtPrepare(stmthp, errhp, (text*)select_sql, strlen(select_sql), OCI_NTV_SYNTAX, OCI_DEFAULT);

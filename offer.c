@@ -1,8 +1,6 @@
 #include "Offer.h"
 #include "Env.h"
 
-
-
 void insert_offer(OFFER* offer) {
 	set_env();
 	char* insert_sql = "INSERT INTO offers (\"accountNumber\", \"stockTicker\", \"exchangeCode\", \"status\", \"quantity\", \"price\") VALUES (:1, :2, :3, :4, :5, :6)";
