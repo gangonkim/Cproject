@@ -1,7 +1,7 @@
-#include "Env.h"
+﻿#include "Env.h"
 #define OCI_UTF8ID 871 // Add this line to define OCI_UTF8ID
-char* username = "C##TEST1";
-char* password = "0000";
+char* username = "C##COOLFIN";
+char* password = "1234";
 char* dbname = "localhost:1521/xe";
 
 void set_env() {
@@ -54,7 +54,7 @@ void set_env() {
 		check_error(errhp);
 		return -1;
 	}
-	printf("Oracle Database connected successfully.\n");
+	//printf("Oracle Database connected successfully.\n");
 }
 
 void check_error(OCIError* errhp) {
