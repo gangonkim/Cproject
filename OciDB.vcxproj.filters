@@ -33,6 +33,9 @@
     <ClCompile Include="initpage.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="sor.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Env.h">

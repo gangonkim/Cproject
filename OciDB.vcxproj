@@ -135,6 +135,7 @@
     <ClCompile Include="initpage.c" />
     <ClCompile Include="login.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="sor.c" />
     <ClCompile Include="stockprice.c" />
   </ItemGroup>
   <ItemGroup>
