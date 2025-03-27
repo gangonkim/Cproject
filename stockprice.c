@@ -8,7 +8,6 @@
 
 void showstockprice() {
     set_env(); // 환경 설정
-
     // 주식 호가 테이블에서 데이터 조회
     char* select_sql = "SELECT STOCK_CODE, TRADING_TIME, "
         "SELL_PRICE_1, SELL_QUANTITY_1, SELL_PRICE_2, SELL_QUANTITY_2, SELL_PRICE_3, SELL_QUANTITY_3, "
@@ -23,7 +22,7 @@ void showstockprice() {
         "ATS_SELL_QUANTITY_6, ATS_SELL_QUANTITY_7, ATS_SELL_QUANTITY_8, ATS_SELL_QUANTITY_9, ATS_SELL_QUANTITY_10, "
         "ATS_BUY_QUANTITY_1, ATS_BUY_QUANTITY_2, ATS_BUY_QUANTITY_3, ATS_BUY_QUANTITY_4, ATS_BUY_QUANTITY_5, "
         "ATS_BUY_QUANTITY_6, ATS_BUY_QUANTITY_7, ATS_BUY_QUANTITY_8, ATS_BUY_QUANTITY_9, ATS_BUY_QUANTITY_10 "
-        "FROM C##DEV.STOCKASKINGPRICE";
+        "FROM STOCKASKINGPRICE";
 
     OCIHandleAlloc(envhp, (void**)&stmthp, OCI_HTYPE_STMT, 0, NULL);
     OCIStmtPrepare(stmthp, errhp, (text*)select_sql, strlen(select_sql), OCI_NTV_SYNTAX, OCI_DEFAULT);

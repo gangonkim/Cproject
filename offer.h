@@ -5,13 +5,10 @@
 #include <stdio.h>
 
 
-
-
 typedef struct {
 	int id;
 	char accountNum[20];
 	char ticker[20];
-	int exchangeCode;
 	char status[20];
 	int quantiy;
 	int price;
