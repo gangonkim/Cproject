@@ -60,12 +60,18 @@ void handle_menu_selection() {
 }
 
 void execute_trade(int choice) {
+    char n_str[10] = "";  // 지역 변수 초기화
+
     switch (choice) {
     case 1:
+        printf("종목명: \n");
+        scanf("%s", n_str);
         showstockprice();  // 매수 함수 호출
         add_offer();
         break;
     case 2:
+        printf("종목명: \n");
+        scanf("%s", n_str);
         showstockprice();  // 매도 함수 호출 (show_stock_price()는 매수/매도 모두 포함될 수 있습니다)
         add_offer();
         break;
@@ -83,7 +89,6 @@ void execute_trade(int choice) {
         break;
     }
 }
-
 
 void generate_report() {
     printf("보고서 출력\n");
