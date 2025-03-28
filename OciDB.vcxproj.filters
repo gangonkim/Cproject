@@ -54,6 +54,9 @@
     <ClCompile Include="nxtstockprice.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="holding.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Env.h">
@@ -63,6 +66,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="trade.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="holding.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

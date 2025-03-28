@@ -19,11 +19,10 @@ void display_menu(int choice) {
 	printf("============================\n");
 
     // 메뉴 항목에 선택된 항목에 대해 배경색을 변경하여 출력
-    printf("%s1. 매수%s\n", choice == 1 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
-    printf("%s2. 매도%s\n", choice == 2 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
-    printf("%s3. 체결/미체결%s\n", choice == 3 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
-    printf("%s4. 잔고%s\n", choice == 4 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
-    printf("%s5. 보고서%s\n", choice == 5 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
+    printf("%s1. 매수/매도%s\n", choice == 1 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
+    printf("%s2. 체결/미체결%s\n", choice == 2 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
+    printf("%s3. 잔고%s\n", choice == 3 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
+    printf("%s4. 보고서%s\n", choice == 4 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
 
     printf("===========================\n");
     printf("상하 화살표키로 선택 후 Enter\n");
@@ -136,17 +135,17 @@ void exchange_showstockprice(int choice) {
         showtotalstockprice("005930");
         select_exchange();
         sor("005930", "매수", 65550, 1500, &trade_count);
-        add_offer();
+        add_offer(1);
         break;
     case 2:
         showkrxstockprice("005930");
         select_exchange();
-        add_offer();
+        add_offer(2);
         break;
     case 3:
         shownxtstockprice("005930");
         select_exchange();
-        add_offer();
+        add_offer(3);
         // 체결/미체결 관련 출력 로직
         break;
     default:
@@ -161,17 +160,13 @@ void execute_trade(int choice) {
         //add_offer();
         break;
     case 2:
-        handle_exchange_selection();  // 매도 함수 호출 (show_stock_price()는 매수/매도 모두 포함될 수 있습니다)
-        //add_offer();
-        break;
-    case 3:
         printf("체결/미체결 목록 출력\n");
         // 체결/미체결 관련 출력 로직
         break;
-    case 4:
+    case 3:
         showholdings();  // 잔고 출력 함수 호출
         break;
-    case 5:
+    case 4:
         generate_report();  // 보고서 생성 함수 호출
         break;
     default:
@@ -192,7 +187,7 @@ void exportJson(int n) {
     //1 : 관리자
 
     //파일 위치 로컬경로
-    FILE* file = fopen("C:/coolfin/projc/public/user_data.json", "w");
+    FILE* file = fopen("user_data.json", "w");
     if (file == NULL) {
         printf("파일 로드 실패");
         return;

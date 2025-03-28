@@ -1,6 +1,4 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
 
 
 typedef struct {
@@ -17,3 +15,5 @@ typedef struct {
 
 
 void insert_trade(TRADE*);
+char* get_account(char* );
+
