@@ -13,5 +13,6 @@ typedef struct {
 
 void get_holding(HOLDING*);
 void insert_holding(HOLDING*);
-void update_holding(HOLDING*, HOLDING*);
+void update_holding(HOLDING*, HOLDING*, int type);
+void delete_holding(HOLDING*);
 

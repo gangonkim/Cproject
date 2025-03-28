@@ -10,7 +10,7 @@
 void showholdings() {
     set_env(); // 환경 설정
 
-    char* select_sql = "SELECT ACCOUNTNUMBER, STOCKTICKER, QUANTITY, PURCHASE_PRICE, CURRENT_PRICE, VALUATIONPL, EARNINGS_RATE, EVALUATED_PRICE FROM HOLDINGS";
+    char* select_sql = "SELECT ACCOUNTNUMBER, STOCKTICKER, QUANTITY, PURCHASE_PRICE, CURRENT_PRICE, VALUATIONPL, EARNINGS_RATE FROM HOLDINGS";
     OCIHandleAlloc(envhp, (void**)&stmthp, OCI_HTYPE_STMT, 0, NULL);
     OCIStmtPrepare(stmthp, errhp, (text*)select_sql, (ub4)strlen(select_sql), OCI_NTV_SYNTAX, OCI_DEFAULT);
     OCIStmtExecute(svchp, stmthp, errhp, 0, 0, NULL, NULL, OCI_DEFAULT);
