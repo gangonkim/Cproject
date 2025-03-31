@@ -137,7 +137,7 @@ void check_trade(OFFER* offer) {
 	OCIDefineByPos(stmthp, &def1, errhp, 1, &tmp_quantity, sizeof(tmp_quantity), SQLT_INT, NULL, NULL, NULL, OCI_DEFAULT);
 
 	if (OCIStmtExecute(svchp, stmthp, errhp, 1, 0, NULL, NULL, OCI_DEFAULT) != OCI_SUCCESS) {
-		check_error(errhp);
+		//check_error(errhp);
 	}
 
 	while (1) {
@@ -147,8 +147,15 @@ void check_trade(OFFER* offer) {
 			break; // status가 성공 상태가 아니면 탈출
 		}
 	}
-	printf("%-20s| %-10s | %-12s | %-8d | %-20s| %-8d | %-8d \n",
+
+	if (total <= 0) {
+		printf("%-20s| %-10s | %-12s | %-8d | %-20s| %-8d | %-8d \n",
+			offer->accountNum, offer->ticker,
+			offer->status, offer->price, offer->createdAt, 0, offer->quantiy);
+	}else {
+		printf("%-20s| %-10s | %-12s | %-8d | %-20s| %-8d | %-8d \n",
 		offer->accountNum, offer->ticker,
 		offer->status, offer->price, offer->createdAt, total, offer->quantiy);
+	}
 	quit_env();
 }
