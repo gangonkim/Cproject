@@ -135,7 +135,7 @@ TRADE* krx_sor(int offerId, char stockcode[], char status[], int price, int quan
                 //printf("Trade번호# %d, offerId=%d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f, 한국거래소 대비 손익=%d\n",
                 //    *trade_count, offerId, trades[*trade_count].quantity, trades[*trade_count].price,
                 //    "NXT", trades[*trade_count].charge, trades[*trade_count].comparison);
-
+                (*trade_count)++;
                 remaining_qty -= trade_qty;
 
                 if (remaining_qty == 0) {
