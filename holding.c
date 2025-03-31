@@ -62,7 +62,7 @@ void update_holding(HOLDING* holding1, HOLDING* holding2, int type) {
 	HOLDING result;
 	strcpy(result.accountNum, holding2->accountNum);
 	strcpy(result.ticker, holding2->ticker);
-	if(type){
+	if(!type){
 		result.quantiy = holding1->quantiy - holding2->quantiy;
 		result.currentPrice = holding2->purchasePrice;
 		if (result.quantiy <= 0) {
