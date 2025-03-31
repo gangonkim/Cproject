@@ -37,7 +37,7 @@ void add_offer(int c) {
 
     //여기서 우선 말록으로 하나 만들고 최대 사이즈 10
     TRADE* trade_array = (TRADE*)malloc(sizeof(TRADE) * 10);
-
+    printf("====================================%d\n",trade_count);
     if (c == 1) {
         sor(offerId, offer.ticker, offer.status, offer.price, offer.quantiy, &trade_count, trade_array);
         if (trade_array == NULL) {
@@ -65,21 +65,7 @@ void add_offer(int c) {
 
     // 개별 할당된 TRADE 구조체 해제
     for (int i = 0; i < trade_count; i++) {
-        //printf("trade_array[%d]:\n", i);
-        //printf("price: %.2f\n", trade_array[i].price);
 
-        //// 동적 할당을 통해 거래 객체 처리
-        //TRADE* trade = (TRADE*)malloc(sizeof(TRADE));
-        //if (trade == NULL) {
-        //    printf("메모리 할당 실패\n");
-        //    free(trade_array);
-        //    return;
-        //}
-
-        //*trade = trade_array[i];
-        //trade->offernumber = offerId;
-        //trade->exchangeactual = 0;
-        //trade->charge = 50;
         insert_trade(&trade_array[i]);
 
         // 보유 주식 변경

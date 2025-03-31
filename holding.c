@@ -28,7 +28,7 @@ void get_holding(HOLDING* holding) {
 	OCIDefineByPos(stmthp, &def6, errhp, 6, &holding->valuation_pl, sizeof(holding->valuation_pl), SQLT_FLT, NULL, NULL, NULL, OCI_DEFAULT);
 	OCIDefineByPos(stmthp, &def7, errhp, 7, &holding->earnings_rate, sizeof(holding->earnings_rate), SQLT_FLT, NULL, NULL, NULL, OCI_DEFAULT);
 	if (OCIStmtFetch2(stmthp, errhp, 1, OCI_DEFAULT, 0, OCI_DEFAULT) != OCI_SUCCESS) {
-		check_error(errhp);
+		//check_error(errhp);
 	}
 	
 	quit_env();
