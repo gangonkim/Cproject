@@ -129,12 +129,11 @@ void select_exchange() {
     }
 }
 void exchange_showstockprice(int choice) {
-    int trade_count = 0;
+    
     switch (choice) {
     case 1:
         showtotalstockprice("005930");
         select_exchange();
-        sor("005930", "매수", 65550, 1500, &trade_count);
         add_offer(1);
         break;
     case 2:
@@ -209,18 +208,18 @@ void exportJson(int n) {
 }
 
 int main() {
-    //printf("C 프로젝트 불러오는 중...\n");
-    //for (int i = 0; i <= 100; i++) {
-    //    printProgressBar(i);  // 진행 바 출력
-    //    Sleep(5); // 1초 대기
-    //}
+    printf("C 프로젝트 불러오는 중...\n");
+    for (int i = 0; i <= 100; i++) {
+        printProgressBar(i);
+        Sleep(5); 
+    }
 
-    //printf("\n로딩 성공!\n");
-    //Sleep(1000);
+    printf("\n로딩 성공!\n");
+    Sleep(1000);
 
-    //cls;
+    cls;
 
-    //login();
+    login();
 
     handle_menu_selection(); 
     

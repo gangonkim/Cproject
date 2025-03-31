@@ -23,13 +23,13 @@ typedef struct {
 
 TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_count) {
     printf("sor실행\n");
-    printf("stockcode: %s\n", stockcode);
-    printf("status: %s\n", status);
-    printf("price: %d\n", price);
-    printf("quantity: %d\n", quantity);
-    printf("trade_count: %d\n", *trade_count);
+    //printf("stockcode: %s\n", stockcode);
+    //printf("status: %s\n", status);
+    //printf("price: %d\n", price);
+    //printf("quantity: %d\n", quantity);
+    //printf("trade_count: %d\n", *trade_count);
 
-    int max_trades = 10; // 초기 거래 저장 공간
+    int max_trades = 1; // 초기 거래 저장 공간
     TRADE* trades = (TRADE*)malloc(max_trades * sizeof(TRADE));
 
     if (trades == NULL) {
@@ -38,8 +38,6 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
     }
 
     set_env(); // 환경 설정
-
-    printf("Stock Code Input: %s\n", stockcode);
 
     char select_sql[1500];
     sprintf(select_sql,
@@ -155,9 +153,9 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
                     };
 
                     // 트레이드 저장 후 printf를 실행합니다
-                    //printf("Trade #%d: Quantity=%d, Price=%d, ExchangeActual=%d, Charge=%.6f, comparison=%d\n",
-                    //    *trade_count, trades[*trade_count].quantity, trades[*trade_count].price,
-                    //    trades[*trade_count].exchangeactual, trades[*trade_count].charge, trades[*trade_count].comparison);
+                    printf("Trade번호# %d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f, 한국거래소 대비 손익=%d\n",
+                        *trade_count, trades[*trade_count].quantity, trades[*trade_count].price,
+                        "NXT", trades[*trade_count].charge, trades[*trade_count].comparison);
 
                     (*trade_count)++;  // trade_count를 저장 후에 증가시킵니다
                     remaining_qty -= ats_trade_qty;  // 여기서 remaining_qty를 감소시킵니다
@@ -183,9 +181,9 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
                     };
 
                     // 트레이드 저장 후 printf를 실행합니다
-                    //printf("Trade #%d: Quantity=%d, Price=%d, ExchangeActual=%d, Charge=%.6f\n",
-                    //    *trade_count, trades[*trade_count].quantity, trades[*trade_count].price,
-                    //    trades[*trade_count].exchangeactual, trades[*trade_count].charge);
+                    printf("Trade번호# %d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f\n",
+                        *trade_count, trades[*trade_count].quantity, trades[*trade_count].price,
+                        "KRX", trades[*trade_count].charge);
 
                     (*trade_count)++;  // trade_count를 저장 후에 증가시킵니다
                     remaining_qty -= trade_qty;  // 여기서도 remaining_qty를 감소시킵니다
