@@ -34,77 +34,64 @@ void add_offer(int c) {
     int offerId = insert_offer(&offer);
     int trade_count = 0;
 
-    // 거래 배열 할당
-    TRADE* trade_array = sor(offer.ticker, offer.status, offer.price, offer.quantiy, &trade_count);
+
+    //여기서 우선 말록으로 하나 만들고 최대 사이즈 10
+    TRADE* trade_array = (TRADE*)malloc(sizeof(TRADE) * 10);
+    sor(offerId, offer.ticker, offer.status, offer.price, offer.quantiy, &trade_count, trade_array);
     if (trade_array == NULL) {
         printf("sor()가 NULL을 반환하였습니다.\n");
         return;
     }
 
-    printf("trade_count의 크기: %d\n", trade_count);
+    //sor();
 
     for (int i = 0; i < trade_count; i++) {
-        printf("trade_array[%d]:\n", i);
-        printf("price: %.2f\n", trade_array[i].price);
+        //printf("trade_array[%d]:\n", i);
+        //printf("price: %.2f\n", trade_array[i].price);
 
-        // 동적 할당을 통해 거래 객체 처리
-        TRADE* trade = (TRADE*)malloc(sizeof(TRADE));
-        if (trade == NULL) {
-            printf("메모리 할당 실패\n");
-            free(trade_array);
-            return;
-        }
+        //// 동적 할당을 통해 거래 객체 처리
+        //TRADE* trade = (TRADE*)malloc(sizeof(TRADE));
+        //if (trade == NULL) {
+        //    printf("메모리 할당 실패\n");
+        //    free(trade_array);
+        //    return;
+        //}
 
-        *trade = trade_array[i];
-        trade->offernumber = offerId;
-        trade->exchangeactual = 0;
-        trade->charge = 50;
-
-        insert_trade(trade);
+        //*trade = trade_array[i];
+        //trade->offernumber = offerId;
+        //trade->exchangeactual = 0;
+        //trade->charge = 50;
+        insert_trade(&trade_array[i]);
 
         // 보유 주식 변경
-        HOLDING* h1 = (HOLDING*)malloc(sizeof(HOLDING));
-        if (h1 == NULL) {
-            printf("메모리 할당 실패\n");
-            free(trade);
-            free(trade_array);
-            return;
-        }
+        HOLDING h1;
+        strcpy(h1.accountNum, account);
+        strcpy(h1.ticker, "005930");
+        h1.quantiy = 0;
+        get_holding(&h1);
+        printf("%d", h1.quantiy);
 
-        strcpy(h1->accountNum, account);
-        strcpy(h1->ticker, "005930");
-        h1->quantiy = 0;
-        get_holding(h1);
-        printf("현재 보유 수량: %d\n", h1->quantiy);
+        HOLDING h2;
 
-        HOLDING* h2 = (HOLDING*)malloc(sizeof(HOLDING));
-        if (h2 == NULL) {
-            printf("메모리 할당 실패\n");
-            free(h1);
-            free(trade);
-            free(trade_array);
-            return;
-        }
 
-        strcpy(h2->accountNum, account);
-        strcpy(h2->ticker, "005930");
-        h2->quantiy = trade->quantity;
-        h2->purchasePrice = trade->price;
-        h2->currentPrice = trade->price;
-        h2->valuation_pl = 0;
-        h2->earnings_rate = 0;
 
-        if (h1->quantiy == 0) {
-            insert_holding(h2);
+        strcpy(h2.accountNum, account);
+        strcpy(h2.ticker, "005930");
+        h2.quantiy = trade_array[i].quantity;
+        h2.purchasePrice = trade_array[i].price;
+        h2.currentPrice = trade_array[i].price;
+        h2.valuation_pl = 0;
+        h2.earnings_rate = 0;
+
+        if (h1.quantiy == 0) {
+            printf("실행?\n");
+            insert_holding(&h2);
         }
         else {
-            update_holding(h1, h2, type);
+            update_holding(&h1, &h2, type);
         }
 
-        // 메모리 해제
-        free(h1);
-        free(h2);
-        free(trade);
+
     }
 
     free(trade_array);

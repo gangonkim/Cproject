@@ -21,21 +21,7 @@ typedef struct {
 
 } TRADE;
 
-TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_count) {
-    printf("sor실행\n");
-    //printf("stockcode: %s\n", stockcode);
-    //printf("status: %s\n", status);
-    //printf("price: %d\n", price);
-    //printf("quantity: %d\n", quantity);
-    //printf("trade_count: %d\n", *trade_count);
-
-    int max_trades = 1; // 초기 거래 저장 공간
-    TRADE* trades = (TRADE*)malloc(max_trades * sizeof(TRADE));
-
-    if (trades == NULL) {
-        printf("메모리 할당 실패\n");
-        return NULL;
-    }
+TRADE* sor(int offerId, char stockcode[], char status[], int price, int quantity, int *trade_count, TRADE* trades) {
 
     set_env(); // 환경 설정
 
@@ -122,8 +108,6 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
         OCIDefineByPos(stmthp, &def_ats_buy_quantity[i], errhp, 53 + i, &ats_buy_quantity[i], sizeof(ats_buy_quantity[i]), SQLT_INT, NULL, NULL, NULL, OCI_DEFAULT);
     }
 
-    // 출력
-    printf("-----------------------\n");
 
     OCIStmtFetch2(stmthp, errhp, 1, OCI_DEFAULT, 0, OCI_DEFAULT);
 
@@ -131,20 +115,14 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
         int remaining_qty = quantity;
 
         if (strcmp(status, "매수") == 0) {
-
+           
             for (int i = 0; i < 10; i++) {
-
                 if (remaining_qty > 0 && sell_price[i] <= price) {
                     // ATS 부터 주문 실행
                     int ats_trade_qty = (remaining_qty < ats_sell_quantity[i]) ? remaining_qty : ats_sell_quantity[i];
 
-                    //printf("sell_price[i]: %d", sell_price[i]);
-                    //printf("ats_sell_quantity: %d\n", ats_sell_quantity[i]);
-                    //printf("remaining_qty: %d\n", remaining_qty);
-                    //printf("trade_qty: %d\n", ats_trade_qty);
-                    //printf("i: %d\n", i);
-
                     trades[*trade_count] = (TRADE){
+                        .offernumber = offerId,
                         .quantity = ats_trade_qty,
                         .price = sell_price[i],
                         .exchangeactual = 1,
@@ -153,8 +131,8 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
                     };
 
                     // 트레이드 저장 후 printf를 실행합니다
-                    printf("Trade번호# %d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f, 한국거래소 대비 손익=%d\n",
-                        *trade_count, trades[*trade_count].quantity, trades[*trade_count].price,
+                    printf("Trade번호# %d, offerId=%d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f, 한국거래소 대비 손익=%d\n",
+                        *trade_count,offerId, trades[*trade_count].quantity, trades[*trade_count].price,
                         "NXT", trades[*trade_count].charge, trades[*trade_count].comparison);
 
                     (*trade_count)++;  // trade_count를 저장 후에 증가시킵니다
@@ -173,6 +151,7 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
                     //printf("trade_qty: %d\n", trade_qty);
 
                     trades[*trade_count] = (TRADE){
+                        .offernumber = offerId,
                         .quantity = trade_qty,
                         .price = sell_price[i],
                         .exchangeactual = 0,
@@ -181,9 +160,9 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
                     };
 
                     // 트레이드 저장 후 printf를 실행합니다
-                    printf("Trade번호# %d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f\n",
-                        *trade_count, trades[*trade_count].quantity, trades[*trade_count].price,
-                        "KRX", trades[*trade_count].charge);
+                    printf("Trade번호# %d, offerId=%d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f, 한국거래소 대비 손익=%d\n",
+                        *trade_count, offerId, trades[*trade_count].quantity, trades[*trade_count].price,
+                        "NXT", trades[*trade_count].charge, trades[*trade_count].comparison);
 
                     (*trade_count)++;  // trade_count를 저장 후에 증가시킵니다
                     remaining_qty -= trade_qty;  // 여기서도 remaining_qty를 감소시킵니다
@@ -194,7 +173,7 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
                     }
 
                 }
-
+                printf("내부에서 숫자 조회 %d", trades[0].quantity);
                 if (remaining_qty == 0) {
                     //printf("매수주문완료 (remaining_qty가 0입니다)\n");
                     break;  // remaining_qty가 0이면 매수주문 완료 후 for문 종료
@@ -215,6 +194,7 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
                     //printf("i: %d\n", i);
 
                     trades[*trade_count] = (TRADE){
+                        .offernumber = offerId,
                         .quantity = ats_trade_qty,
                         .price = buy_price[i],
                         .exchangeactual = 1,
@@ -243,6 +223,7 @@ TRADE* sor(char stockcode[], char status[], int price, int quantity, int *trade_
                     //printf("trade_qty: %d\n", trade_qty);
 
                     trades[*trade_count] = (TRADE){
+                        .offernumber = offerId,
                         .quantity = trade_qty,
                         .price = buy_price[i],
                         .exchangeactual = 0,
