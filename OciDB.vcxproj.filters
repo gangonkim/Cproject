@@ -57,6 +57,12 @@
     <ClCompile Include="holding.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="trade.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="krxsor.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Env.h">

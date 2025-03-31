@@ -104,7 +104,7 @@ void showtotalstockprice(const char* stock_code_input) {
         printf("|  호 가   | 통합잔량 |\n");
 
         // 매도호가 1~10 및 수량 출력 (파란색)
-        for (int i = 0; i < 10; i++) {
+        for (int i = 9; i >= 0; i--) {
             printf("| %s %.0f%s   |   %-5d  |\n", BLUE_COLOR, (float)sell_price[i], RESET_COLOR, sell_quantity[i] + ats_sell_quantity[i]);
         }
 

@@ -135,6 +135,7 @@
     <ClCompile Include="exchange_choice.c" />
     <ClCompile Include="holdings.c" />
     <ClCompile Include="initpage.c" />
+    <ClCompile Include="krxsor.c" />
     <ClCompile Include="krxstockprice.c" />
     <ClCompile Include="login.c" />
     <ClCompile Include="main.c" />
