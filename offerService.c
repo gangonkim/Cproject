@@ -81,3 +81,29 @@ void add_offer(int c) {
 	}
 	
 }
+
+void get_offer_history() {
+	// 계좌 번호 가져오기
+	char* account = get_account(authId);
+	int n =  count_offers(account);
+	system("cls");
+	printf("===============================================================================================\n");
+	printf("     계좌번호       | 주식 코드  | 주문내용   | 주문가격 |       주문시간      |  체결량  | 주문량  \n");
+	printf("-----------------------------------------------------------------------------------------------\n");
+	OFFER* offers = (OFFER*)malloc(sizeof(OFFER) * n); // 배열 동적 할당
+	if (offers == NULL) {
+		printf("메모리 할당 실패\n");
+		quit_env();
+		return NULL;
+	}
+
+	get_offers(account, offers , n);
+
+	if (offers != NULL) {
+		for (int i = 0; i < n; i++) {
+			check_trade(&offers[i]);
+		}
+	}
+	free(offers);
+	
+};

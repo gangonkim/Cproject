@@ -4,3 +4,4 @@
 #include <stdio.h>
 
 void add_offer(int c);
+void get_offer_history();
