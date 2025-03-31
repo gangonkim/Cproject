@@ -46,7 +46,7 @@ void insert_trade(TRADE* trade) {
 	OCIBind* bnd1 = NULL, * bnd2 = NULL, * bnd3 = NULL, * bnd4 = NULL, * bnd5 = NULL;
 	OCIBindByPos(stmthp, &bnd1, errhp, 1, &trade->offernumber, sizeof(trade->offernumber), SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
 	OCIBindByPos(stmthp, &bnd2, errhp, 2, &trade->exchangeactual, sizeof(trade->exchangeactual), SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
-	OCIBindByPos(stmthp, &bnd4, errhp, 3, &trade->quantiy, sizeof(trade->quantiy), SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
+	OCIBindByPos(stmthp, &bnd4, errhp, 3, &trade->quantity, sizeof(trade->quantity), SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
 	OCIBindByPos(stmthp, &bnd5, errhp, 4, &trade->price, sizeof(trade->price), SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
 	OCIBindByPos(stmthp, &bnd5, errhp, 5, &trade->charge, sizeof(trade->charge), SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
 	if (OCIStmtExecute(svchp, stmthp, errhp, 1, 0, NULL, NULL, OCI_COMMIT_ON_SUCCESS) != OCI_SUCCESS) {
