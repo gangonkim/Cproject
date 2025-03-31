@@ -117,6 +117,9 @@ TRADE* sor(int offerId, char stockcode[], char status[], int price, int quantity
            
             for (int i = 0; i < 10; i++) {
                 if (remaining_qty > 0 && sell_price[i] <= price) {
+
+                    printf("sell_price[i]: %d", sell_price[i]);
+                    printf("price: %d", price);
                     // ATS 부터 주문 실행
                     int ats_trade_qty = (remaining_qty < ats_sell_quantity[i]) ? remaining_qty : ats_sell_quantity[i];
 

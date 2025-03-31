@@ -1,5 +1,6 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include "Env.h"
+#include "trade.h"
 #include <stdio.h>
 
 // ANSI 색상 코드
@@ -8,12 +9,30 @@
 #define RED_COLOR "\033[31m"    // 손실 (EARNINGS_RATE < 0)
 
 void showholdings() {
+
+    // 로그인한 사용자의 계좌번호 가져오기
+    char* account = get_account(authId);
+    if (account == NULL) {
+        printf("계좌 정보를 찾을 수 없습니다.\n");
+        return;
+    }
+    printf("-------------------------143324");
+    printf("account: %s", account);
+
     set_env(); // 환경 설정
 
-    char* select_sql = "SELECT ACCOUNTNUMBER, STOCKTICKER, QUANTITY, PURCHASE_PRICE, CURRENT_PRICE, VALUATIONPL, EARNINGS_RATE FROM HOLDINGS";
+
+
+    char* select_sql = "SELECT ACCOUNTNUMBER, STOCKTICKER, QUANTITY, PURCHASE_PRICE, CURRENT_PRICE, VALUATIONPL, EARNINGS_RATE FROM HOLDINGS WHERE ACCOUNTNUMBER = :1";
     OCIHandleAlloc(envhp, (void**)&stmthp, OCI_HTYPE_STMT, 0, NULL);
     OCIStmtPrepare(stmthp, errhp, (text*)select_sql, (ub4)strlen(select_sql), OCI_NTV_SYNTAX, OCI_DEFAULT);
+
+    // 바인드 변수 설정 (로그인한 계좌번호를 쿼리에 전달)
+    OCIBind* bnd1 = NULL;
+    OCIBindByPos(stmthp, &bnd1, errhp, 1, account, strlen(account) + 1, SQLT_STR, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
+
     OCIStmtExecute(svchp, stmthp, errhp, 0, 0, NULL, NULL, OCI_DEFAULT);
+
 
     // Define 변수
     OCIDefine* def1 = NULL, * def2 = NULL, * def3 = NULL, * def4 = NULL, * def5 = NULL, * def6 = NULL, * def7 = NULL;
@@ -30,6 +49,7 @@ void showholdings() {
     OCIDefineByPos(stmthp, &def6, errhp, 6, &valuation_pl, sizeof(valuation_pl), SQLT_FLT, NULL, NULL, NULL, OCI_DEFAULT);
     OCIDefineByPos(stmthp, &def7, errhp, 7, &earnings_rate, sizeof(earnings_rate), SQLT_FLT, NULL, NULL, NULL, OCI_DEFAULT);
 
+
     // 출력
 
 
@@ -42,9 +62,10 @@ void showholdings() {
             "종목코드", "수량", "매입가", "현재가", "손익", "수익률");
         printf("-------------------------------------------------------------------------------\n");
         const char* color = earnings_rate >= 0 ? GREEN_COLOR : RED_COLOR;
-        printf("| %-10s | %-8d | %-12.2f | %-12.2f | %s%-10.2f%s | %s%-7.2f%%%s |\n",
-            stock_ticker, quantity, purchase_price, current_price,
-            color, valuation_pl, RESET_COLOR, color, earnings_rate, RESET_COLOR);
+        printf("| %-10s | %-8d | %-12.0f | %-12.0f | %s%-10.0f%s | %s%-7.2f%%%s |\n",
+            stock_ticker, quantity, purchase_price, 64600,
+            color, 64600 * quantity - purchase_price * quantity, RESET_COLOR, color, 
+            ((64600 - purchase_price) / purchase_price) * 100, RESET_COLOR);
     }
 
     printf("-------------------------------------------------------------------------------\n");
