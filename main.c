@@ -160,7 +160,7 @@ void execute_trade(int choice) {
         break;
     case 2:
         printf("체결/미체결 목록 출력\n");
-        // 체결/미체결 관련 출력 로직
+        get_offer_history();
         break;
     case 3:
         showholdings();  // 잔고 출력 함수 호출
