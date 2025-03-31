@@ -1,15 +1,29 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Env.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-// ANSI 색상 코드
-#define RESET_COLOR "\033[0m"
-#define RED_COLOR "\033[31m"  // 빨간색
-#define BLUE_COLOR "\033[34m" // 파란색
+#define KRX_CHARGE 1.5
+#define ATS_CHARGE 1.45
 
-void shownxtstockprice(const char* stock_code_input) {
+typedef struct {
+    int id;
+    int offernumber;
+    int exchangeactual;
+    char selleraccountnumber[20];
+    char buyeraccountnumber[20];
+    int quantity;
+    int price;
+    double charge;
+    int comparison;
+    char createdAt[20];
+
+} TRADE;
+
+TRADE* nxt_sor(int offerId, char stockcode[], char status[], int price, int quantity, int* trade_count, TRADE* trades) {
+
     set_env(); // 환경 설정
-
-    printf("Stock Code Input: %s\n", stock_code_input);
 
     char select_sql[1500];
     sprintf(select_sql,
@@ -27,7 +41,7 @@ void shownxtstockprice(const char* stock_code_input) {
         "ATS_BUY_QUANTITY_1, ATS_BUY_QUANTITY_2, ATS_BUY_QUANTITY_3, ATS_BUY_QUANTITY_4, ATS_BUY_QUANTITY_5, "
         "ATS_BUY_QUANTITY_6, ATS_BUY_QUANTITY_7, ATS_BUY_QUANTITY_8, ATS_BUY_QUANTITY_9, ATS_BUY_QUANTITY_10 "
         "FROM STOCKASKINGPRICE "
-        "WHERE STOCK_CODE = '%s'", stock_code_input);
+        "WHERE STOCK_CODE = '%s'", stockcode);
 
     OCIHandleAlloc(envhp, (void**)&stmthp, OCI_HTYPE_STMT, 0, NULL);
     OCIStmtPrepare(stmthp, errhp, (text*)select_sql, strlen(select_sql), OCI_NTV_SYNTAX, OCI_DEFAULT);
@@ -94,28 +108,89 @@ void shownxtstockprice(const char* stock_code_input) {
         OCIDefineByPos(stmthp, &def_ats_buy_quantity[i], errhp, 53 + i, &ats_buy_quantity[i], sizeof(ats_buy_quantity[i]), SQLT_INT, NULL, NULL, NULL, OCI_DEFAULT);
     }
 
-    // 출력
-    system("cls");  // 화면 초기화
-    printf("----------------------\n");
 
-    while ((status = OCIStmtFetch2(stmthp, errhp, 1, OCI_DEFAULT, 0, OCI_DEFAULT)) == OCI_SUCCESS || status == OCI_SUCCESS_WITH_INFO) {
-        printf("| 종목코드 | %-8s \n|  종목명  | 삼성전자 \n", stock_code);
-        printf("----------------------\n");
-        printf("|  호 가   | NXT잔량 |\n");
+    OCIStmtFetch2(stmthp, errhp, 1, OCI_DEFAULT, 0, OCI_DEFAULT);
 
-        // 매도호가 1~10 및 수량 출력 (파란색)
-        for (int i = 9; i >= 0; i--) {
-            printf("| %s %.0f%s   |   %-5d |\n", BLUE_COLOR, (float)sell_price[i], RESET_COLOR, ats_sell_quantity[i]);
-        }
+    int remaining_qty = quantity;
 
-        // 매수호가 1~10 및 수량 출력 (빨간색)
+    if (strcmp(status, "매수") == 0) {
+
         for (int i = 0; i < 10; i++) {
-            printf("| %s %.0f%s   |   %-5d |\n", RED_COLOR, (float)buy_price[i], RESET_COLOR, ats_buy_quantity[i]);
-        }
+            if (remaining_qty > 0 && sell_price[i] <= price) {
+                // ATS 부터 주문 실행
+                int ats_trade_qty = (remaining_qty < ats_sell_quantity[i]) ? remaining_qty : ats_sell_quantity[i];
 
-        printf("----------------------\n");
+                trades[*trade_count] = (TRADE){
+                    .offernumber = offerId,
+                    .quantity = ats_trade_qty,
+                    .price = sell_price[i],
+                    .exchangeactual = 1,
+                    .charge = ats_trade_qty * ATS_CHARGE,
+                    .comparison = ats_trade_qty * (KRX_CHARGE - ATS_CHARGE)
+                };
+
+                // 트레이드 저장 후 printf를 실행합니다
+                //printf("Trade번호# %d, offerId=%d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f, 한국거래소 대비 손익=%d\n",
+                //    *trade_count,offerId, trades[*trade_count].quantity, trades[*trade_count].price,
+                //    "NXT", trades[*trade_count].charge, trades[*trade_count].comparison);
+
+                (*trade_count)++;  // trade_count를 저장 후에 증가시킵니다
+                remaining_qty -= ats_trade_qty;  // 여기서 remaining_qty를 감소시킵니다
+
+                if (remaining_qty == 0) {
+                    printf("\n ***매수주문이 체결되었습니다***\n\n");
+                    break;
+                }
+
+
+            }
+            //printf("내부에서 숫자 조회 %d", trades[0].quantity);
+            if (remaining_qty == 0) {
+                printf("\n ***매수주문이 체결되었습니다***\n");
+                break;  // remaining_qty가 0이면 매수주문 완료 후 for문 종료
+            }
+        }
+    } if (strcmp(status, "매도") == 0) {
+
+        for (int i = 0; i < 10; i++) {
+
+            if (remaining_qty > 0 && buy_price[i] >= price) {
+                // ATS 부터 주문 실행
+                int ats_trade_qty = (remaining_qty < ats_buy_quantity[i]) ? remaining_qty : ats_buy_quantity[i];
+
+                //printf("buy_price[i]: %d", buy_price[i]);
+                //printf("ats_buy_quantity: %d\n", ats_buy_quantity[i]);
+                //printf("remaining_qty: %d\n", remaining_qty);
+                //printf("trade_qty: %d\n", ats_trade_qty);
+                //printf("i: %d\n", i);
+
+                trades[*trade_count] = (TRADE){
+                    .offernumber = offerId,
+                    .quantity = ats_trade_qty,
+                    .price = buy_price[i],
+                    .exchangeactual = 1,
+                    .charge = ats_trade_qty * ATS_CHARGE,
+                    .comparison = ats_trade_qty * (KRX_CHARGE - ATS_CHARGE)
+                };
+
+                // 트레이드 저장 후 printf를 실행합니다
+                //printf("Trade #%d: Quantity=%d, Price=%d, ExchangeActual=%d, Charge=%.6f\n",
+                //    *trade_count, trades[*trade_count].quantity, trades[*trade_count].price,
+                //    trades[*trade_count].exchangeactual, trades[*trade_count].charge);
+
+                (*trade_count)++;  // trade_count를 저장 후에 증가시킵니다
+                remaining_qty -= ats_trade_qty;  // 여기서 remaining_qty를 감소시킵니다
+
+                if (remaining_qty == 0) {
+                    printf("\n ***매도주문이 체결되었습니다***\n\n");
+                    break;  // remaining_qty가 0이면 매수주문 완료 후 반복문 종료
+                }
+            }
+
+        }
     }
 
     // 환경 종료
     quit_env();
+    return trades;
 }

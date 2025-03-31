@@ -63,6 +63,9 @@
     <ClCompile Include="krxsor.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="nxt_sor.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Env.h">

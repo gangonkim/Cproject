@@ -37,11 +37,29 @@ void add_offer(int c) {
 
     //여기서 우선 말록으로 하나 만들고 최대 사이즈 10
     TRADE* trade_array = (TRADE*)malloc(sizeof(TRADE) * 10);
-    sor(offerId, offer.ticker, offer.status, offer.price, offer.quantiy, &trade_count, trade_array);
-    if (trade_array == NULL) {
-        printf("sor()가 NULL을 반환하였습니다.\n");
-        return;
+
+    if (c == 1) {
+        sor(offerId, offer.ticker, offer.status, offer.price, offer.quantiy, &trade_count, trade_array);
+        if (trade_array == NULL) {
+            printf("sor()가 NULL을 반환하였습니다.\n");
+            return;
+        }
     }
+    else if (c == 2) {
+        krx_sor(offerId, offer.ticker, offer.status, offer.price, offer.quantiy, &trade_count, trade_array);
+        if (trade_array == NULL) {
+            printf("sor()가 NULL을 반환하였습니다.\n");
+            return;
+        }
+    }
+    else if (c == 3) {
+        nxt_sor(offerId, offer.ticker, offer.status, offer.price, offer.quantiy, &trade_count, trade_array);
+        if (trade_array == NULL) {
+            printf("sor()가 NULL을 반환하였습니다.\n");
+            return;
+        }
+    }
+    
 
     //sor();
 

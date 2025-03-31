@@ -21,7 +21,7 @@ typedef struct {
 
 } TRADE;
 
-TRADE* sor(int offerId, char stockcode[], char status[], int price, int quantity, int* trade_count, TRADE* trades) {
+TRADE* krx_sor(int offerId, char stockcode[], char status[], int price, int quantity, int* trade_count, TRADE* trades) {
 
     set_env(); // 환경 설정
 
