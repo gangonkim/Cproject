@@ -149,13 +149,50 @@ void check_trade(OFFER* offer) {
 	}
 
 	if (total <= 0) {
-		printf("%-20s| %-10s | %-12s | %-8d | %-20s| %-8d | %-8d \n",
+		printf("%-20s| %-10s | %-12s | %-8d |          | %-19s| %-8d | %-8d \n",
 			offer->accountNum, offer->ticker,
 			offer->status, offer->price, offer->createdAt, 0, offer->quantiy);
 	}else {
-		printf("%-20s| %-10s | %-12s | %-8d | %-20s| %-8d | %-8d \n",
+		printf("%-20s| %-10s | %-12s | %-8d |          | %-19s| %-8d | %-8d \n",
 		offer->accountNum, offer->ticker,
 		offer->status, offer->price, offer->createdAt, total, offer->quantiy);
 	}
+	quit_env();
+}
+
+void check_detail(OFFER* offer) {
+	set_env();
+
+	char* select_sql = "SELECT quantity, price FROM trades WHERE offerNumber = :1";
+
+	OCIHandleAlloc(envhp, (void**)&stmthp, OCI_HTYPE_STMT, 0, NULL);
+	OCIStmtPrepare(stmthp, errhp, (text*)select_sql, strlen(select_sql), OCI_NTV_SYNTAX, OCI_DEFAULT);
+
+	OCIBind* bnd1 = NULL;
+	OCIBindByPos(stmthp, &bnd1, errhp, 1, &offer->id, sizeof(offer->id), SQLT_INT, NULL, NULL, NULL, 0, NULL, OCI_DEFAULT);
+
+	int quantity;
+	int price;
+
+	OCIDefine* def1 = NULL, * def2 = NULL;
+	OCIDefineByPos(stmthp, &def1, errhp, 1, &quantity, sizeof(quantity), SQLT_INT, NULL, NULL, NULL, OCI_DEFAULT);
+	OCIDefineByPos(stmthp, &def2, errhp, 2, &price, sizeof(price), SQLT_INT, NULL, NULL, NULL, OCI_DEFAULT);
+
+
+	if (OCIStmtExecute(svchp, stmthp, errhp, 1, 0, NULL, NULL, OCI_DEFAULT) != OCI_SUCCESS) {
+		//check_error(errhp);
+	}
+
+	while (1) {
+		if (quantity > 0) {
+			printf("                                                         |% -8d  |                    | % -8d \n",
+				price, quantity);
+		}
+		status = OCIStmtFetch2(stmthp, errhp, 1, OCI_DEFAULT, 0, OCI_DEFAULT);
+		if (status != OCI_SUCCESS && status != OCI_SUCCESS_WITH_INFO) {
+			break; // status가 성공 상태가 아니면 탈출
+		}
+	}
+
 	quit_env();
 }

@@ -20,3 +20,4 @@ int insert_offer(OFFER*);
 int count_offers(char* accountNum);
 void get_offers(const char* accountNum, OFFER *, int count);
 void check_trade(OFFER*);
+void check_detail(OFFER* offer);
