@@ -39,6 +39,8 @@ void exchange_menu(int choice) {
     printf("%s1. 스마트 주문%s\n", choice == 1 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
     printf("%s2. KRX 거래소%s\n", choice == 2 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
     printf("%s3. NXT 거래소%s\n", choice == 3 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
+    printf("%s4. 뒤로가기%s\n", choice == 4 ? SELECTED_BG_COLOR : DEFAULT_BG_COLOR, RESET_COLOR);
+
 
     printf("===========================\n");
     printf("상하 화살표키로 선택 후 Enter\n");
@@ -147,6 +149,9 @@ void exchange_showstockprice(int choice) {
         add_offer(3);
         // 체결/미체결 관련 출력 로직
         break;
+    case 4:
+        handle_menu_selection();
+        break;
     default:
         break;
     }
@@ -202,9 +207,17 @@ void exportJson(int n) {
     fclose(file);
 
     printf("JSON 파일 생성이 완료되었습니다\n");
-    printf("계속하시려면 아무 키나 입력해 주세요...");
-    pause;
-    cls;
+    // ESC 키 입력 대기
+    printf("\n메뉴 선택 화면으로 돌아가기(ESC)...\n");
+    while (1) {
+        if (_kbhit()) {  // 키 입력 감지
+            char key = _getch();  // 입력된 키 값을 읽음
+            if (key == 27) {  // ESC 키(ASCII 27) 확인
+                handle_menu_selection();  // 메뉴 선택 함수 실행
+                break;  // 루프 종료
+            }
+        }
+    }
 }
 
 int main() {

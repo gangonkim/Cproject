@@ -26,10 +26,10 @@ void add_offer(int c) {
     scanf("%d", &offer.price);
 
     // offer 값 디버깅 출력
-    printf("offer.ticker: %s\n", offer.ticker);
-    printf("offer.status: %s\n", offer.status);
-    printf("offer.price: %d\n", offer.price);
-    printf("offer.quantity: %d\n", offer.quantiy);
+    //printf("offer.ticker: %s\n", offer.ticker);
+    //printf("offer.status: %s\n", offer.status);
+    //printf("offer.price: %d\n", offer.price);
+    //printf("offer.quantity: %d\n", offer.quantiy);
 
     int offerId = insert_offer(&offer);
     int trade_count = 0;
@@ -70,16 +70,9 @@ void add_offer(int c) {
         strcpy(h1.ticker, "005930");
         h1.quantiy = 0;
         get_holding(&h1);
-        printf("%d", h1.quantiy);
+        //printf("%d", h1.quantiy);
 
         HOLDING h2;
-
-        strcpy(h1->accountNum, account);
-        strcpy(h1->ticker, "005930");
-        h1->quantiy = 0;
-        get_holding(h1);
-        printf("현재 보유 수량: %d\n", h1->quantiy);
-
 
         strcpy(h2.accountNum, account);
         strcpy(h2.ticker, "005930");
@@ -90,7 +83,7 @@ void add_offer(int c) {
         h2.earnings_rate = 0;
 
         if (h1.quantiy == 0) {
-            printf("실행?\n");
+            //printf("실행?\n");
             insert_holding(&h2);
         }
         else {
@@ -98,6 +91,18 @@ void add_offer(int c) {
         }
 
 
+    }
+
+    // ESC 키 입력 대기
+    printf("메뉴 선택 화면으로 돌아가기(ESC)...\n");
+    while (1) {
+        if (_kbhit()) {  // 키 입력 감지
+            char key = _getch();  // 입력된 키 값을 읽음
+            if (key == 27) {  // ESC 키(ASCII 27) 확인
+                handle_menu_selection();  // 메뉴 선택 함수 실행
+                break;  // 루프 종료
+            }
+        }
     }
 
 }
@@ -125,5 +130,17 @@ void get_offer_history() {
 		}
 	}
 	free(offers);
+
+    // ESC 키 입력 대기
+    printf("메뉴 선택 화면으로 돌아가기(ESC)...\n");
+    while (1) {
+        if (_kbhit()) {  // 키 입력 감지
+            char key = _getch();  // 입력된 키 값을 읽음
+            if (key == 27) {  // ESC 키(ASCII 27) 확인
+                handle_menu_selection();  // 메뉴 선택 함수 실행
+                break;  // 루프 종료
+            }
+        }
+    }
 	
 };

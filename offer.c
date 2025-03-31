@@ -27,7 +27,7 @@ int insert_offer(OFFER* offer) {
 		check_error(errhp);
 	}
 	else {
-		printf(" 데이터 삽입 완료!\n");
+		printf("\n ***주문이 완료되었습니다***\n");
 	}
 	
 	quit_env;

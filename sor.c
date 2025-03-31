@@ -130,15 +130,15 @@ TRADE* sor(int offerId, char stockcode[], char status[], int price, int quantity
                     };
 
                     // 트레이드 저장 후 printf를 실행합니다
-                    printf("Trade번호# %d, offerId=%d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f, 한국거래소 대비 손익=%d\n",
-                        *trade_count,offerId, trades[*trade_count].quantity, trades[*trade_count].price,
-                        "NXT", trades[*trade_count].charge, trades[*trade_count].comparison);
+                    //printf("Trade번호# %d, offerId=%d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f, 한국거래소 대비 손익=%d\n",
+                    //    *trade_count,offerId, trades[*trade_count].quantity, trades[*trade_count].price,
+                    //    "NXT", trades[*trade_count].charge, trades[*trade_count].comparison);
 
                     (*trade_count)++;  // trade_count를 저장 후에 증가시킵니다
                     remaining_qty -= ats_trade_qty;  // 여기서 remaining_qty를 감소시킵니다
 
                 if (remaining_qty == 0) {
-                    printf("매수주문 완료 (remaining_qty가 0입니다)\n");
+                    printf("\n ***매수주문이 체결되었습니다***\n\n");
                     break; 
                 }
 
@@ -156,21 +156,21 @@ TRADE* sor(int offerId, char stockcode[], char status[], int price, int quantity
                     };
 
                     // 트레이드 저장 후 printf를 실행합니다
-                    printf("Trade번호# %d, offerId=%d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f, 한국거래소 대비 손익=%d\n",
-                        *trade_count, offerId, trades[*trade_count].quantity, trades[*trade_count].price,
-                        "NXT", trades[*trade_count].charge, trades[*trade_count].comparison);
+                    //printf("Trade번호# %d, offerId=%d, 체결수량=%d, 체결가=%d, 거래소=%d, 수수료=%.6f, 한국거래소 대비 손익=%d\n",
+                    //    *trade_count, offerId, trades[*trade_count].quantity, trades[*trade_count].price,
+                    //    "NXT", trades[*trade_count].charge, trades[*trade_count].comparison);
 
                 remaining_qty -= trade_qty;
 
                 if (remaining_qty == 0) {
-                    printf("매수주문 완료 (remaining_qty가 0입니다)\n");
+                    printf("\n ***매수주문이 체결되었습니다***\n");
                     break;  
                 }
 
                 }
-                printf("내부에서 숫자 조회 %d", trades[0].quantity);
+                //printf("내부에서 숫자 조회 %d", trades[0].quantity);
                 if (remaining_qty == 0) {
-                    //printf("매수주문완료 (remaining_qty가 0입니다)\n");
+                    printf("\n ***매수주문이 체결되었습니다***\n");
                     break;  // remaining_qty가 0이면 매수주문 완료 후 for문 종료
                 }
             }
@@ -206,7 +206,7 @@ TRADE* sor(int offerId, char stockcode[], char status[], int price, int quantity
                 remaining_qty -= ats_trade_qty;  // 여기서 remaining_qty를 감소시킵니다
 
                 if (remaining_qty == 0) {
-                    //printf("매도주문 완료 (remaining_qty가 0입니다)\n");
+                    printf("\n ***매도주문이 체결되었습니다***\n\n");
                     break;  // remaining_qty가 0이면 매수주문 완료 후 반복문 종료
                 }
 
@@ -234,15 +234,15 @@ TRADE* sor(int offerId, char stockcode[], char status[], int price, int quantity
                 (*trade_count)++;  // trade_count를 저장 후에 증가시킵니다
                 remaining_qty -= trade_qty;  // 여기서도 remaining_qty를 감소시킵니다
 
-                if (remaining_qty == 0) {/*
-                    printf("매도주문 완료 (remaining_qty가 0입니다)\n");*/
+                if (remaining_qty == 0) {
+                    printf("\n ***매도주문이 체결되었습니다***\n");
                     break;  // remaining_qty가 0이면 매수주문 완료 후 반복문 종료
                 }
 
             }
 
             if (remaining_qty == 0) {
-                //printf("매도주문완료 (remaining_qty가 0입니다)\n");
+                printf("\n ***매수주문이 체결되었습니다***\n");
                 break;  // remaining_qty가 0이면 매수주문 완료 후 for문 종료
             }
         }

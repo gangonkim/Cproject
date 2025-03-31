@@ -53,7 +53,7 @@ void insert_holding(HOLDING* holding) {
 		check_error(errhp);
 	}
 	else {
-		printf(" 데이터 삽입 완료!\n");
+		//printf(" 데이터 삽입 완료!\n");
 	}
 	quit_env();
 };
@@ -105,7 +105,7 @@ void update_holding(HOLDING* holding1, HOLDING* holding2, int type) {
 		check_error(errhp);
 	}
 	else {
-		printf(" 데이터 수정 완료!\n");
+		//printf(" 데이터 수정 완료!\n");
 	}
 	quit_env();
 
@@ -127,7 +127,7 @@ void delete_holding(HOLDING* holding1) {
 		check_error(errhp);
 	}
 	else {
-		printf(" 데이터 삭제 완료!\n");
+		//printf(" 데이터 삭제 완료!\n");
 	}
 	quit_env();
 }

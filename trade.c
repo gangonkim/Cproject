@@ -53,7 +53,7 @@ void insert_trade(TRADE* trade) {
 		check_error(errhp);
 	}
 	else {
-		printf(" 데이터 삽입 완료!\n");
+		//printf(" 데이터 삽입 완료!\n");
 	}
 	quit_env;
 };
