@@ -149,11 +149,11 @@ void check_trade(OFFER* offer) {
 	}
 
 	if (total <= 0) {
-		printf("%-20s| %-10s | %-12s | %-8d |          | %-19s| %-8d | %-8d \n",
+		printf("%-20s| %-10s | %-12s | %7d원 |           | %-19s| %7d주 | %7d주 \n",
 			offer->accountNum, offer->ticker,
 			offer->status, offer->price, offer->createdAt, 0, offer->quantiy);
 	}else {
-		printf("%-20s| %-10s | %-12s | %-8d |          | %-19s| %-8d | %-8d \n",
+		printf("%-20s| %-10s | %-12s | %7d원 |           | %-19s| %7d주 | %7d주 \n",
 		offer->accountNum, offer->ticker,
 		offer->status, offer->price, offer->createdAt, total, offer->quantiy);
 	}
@@ -185,7 +185,7 @@ void check_detail(OFFER* offer) {
 
 	while (1) {
 		if (quantity > 0) {
-			printf("                                                         |% -8d  |                    | % -8d \n",
+			printf("                                                          |% 7d원  |                    | % 7d주 \n",
 				price, quantity);
 		}
 		status = OCIStmtFetch2(stmthp, errhp, 1, OCI_DEFAULT, 0, OCI_DEFAULT);
