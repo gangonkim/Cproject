@@ -25,11 +25,17 @@ void add_offer(int c) {
     printf("거래 가격: \n");
     scanf("%d", &offer.price);
 
-    // offer 값 디버깅 출력
-    //printf("offer.ticker: %s\n", offer.ticker);
-    //printf("offer.status: %s\n", offer.status);
-    //printf("offer.price: %d\n", offer.price);
-    //printf("offer.quantity: %d\n", offer.quantiy);
+    if (type == 0) {
+        HOLDING h;
+        strcpy(h.accountNum, account);
+        strcpy(h.ticker, "005930");
+        h.quantiy = 0;
+        get_holding(&h);
+        while (offer.quantiy > h.quantiy) {
+            printf("보유 주식이 거래 수량 보다 적습니다. 거래 수량을 다시 입력해주세요: \n");
+            scanf("%d", &offer.quantiy);
+        }
+    }
 
     int offerId = insert_offer(&offer);
     int trade_count = 0;
